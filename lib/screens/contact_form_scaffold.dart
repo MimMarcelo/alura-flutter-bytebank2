@@ -53,7 +53,7 @@ class ContactFormScaffold extends StatelessWidget {
                     onPressed: (){
                       final String name = _nameController.text;
                       final int account = int.parse(_accountController.text);
-                      final Contact contact = Contact(name, account);
+                      final Contact contact = Contact(0, name, account);
                       Navigator.pop(context, contact);
                     },
                   ),

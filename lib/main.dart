@@ -1,8 +1,12 @@
+import 'package:bytebank/database/app_database.dart';
+import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/screens/dashboard_scaffold.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(ByteBankApp());
+//  insert(Contact(0, 'Gabriel', 1002)).then((value) => print(value.toString()));
+all().then((value) => print(value.toString()));
 }
 
 class ByteBankApp extends StatelessWidget {
