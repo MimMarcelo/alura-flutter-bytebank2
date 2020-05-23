@@ -1,24 +1,25 @@
-import 'package:bytebank/database/app_database.dart';
+import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/screens/contact_form_scaffold.dart';
 import 'package:flutter/material.dart';
 
-class ContactsListScaffold extends StatelessWidget {
+class ContactsListScaffold extends StatefulWidget {
+  @override
+  _ContactsListScaffoldState createState() => _ContactsListScaffoldState();
+}
+
+class _ContactsListScaffoldState extends State<ContactsListScaffold> {
   @override
   Widget build(BuildContext context) {
-//    contacts.add(Contact(0, "Marcelo Júnior", 1000));
-//    contacts.add(Contact(0, "Ana Carolina", 1000));
-//    contacts.add(Contact(0, "Rebeca Mattiuci", 1000));
     return Scaffold(
       appBar: AppBar(
         title: Text("Contacts"),
       ),
       body: FutureBuilder<List<Contact>>(
         initialData: List(),
-        future: all(),
+        future: ContactDao.all(),
         builder: (context, snapshot) {
-          switch(snapshot.connectionState){
-
+          switch (snapshot.connectionState) {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
@@ -59,9 +60,7 @@ class ContactsListScaffold extends StatelessWidget {
                   builder: (context) => ContactFormScaffold(),
                 ),
               )
-              .then((contact) => {
-                    debugPrint(contact.toString()),
-                  });
+              .then((value) => setState(() => {}));
         },
       ),
     );

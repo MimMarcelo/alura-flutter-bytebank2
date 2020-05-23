@@ -1,8 +1,8 @@
+import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactFormScaffold extends StatelessWidget {
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _accountController = TextEditingController();
 
@@ -50,11 +50,11 @@ class ContactFormScaffold extends StatelessWidget {
                   width: double.maxFinite, // Ocupar todo espaço disponível
                   child: RaisedButton(
                     child: Text("Create"),
-                    onPressed: (){
+                    onPressed: () {
                       final String name = _nameController.text;
                       final int account = int.parse(_accountController.text);
                       final Contact contact = Contact(0, name, account);
-                      Navigator.pop(context, contact);
+                      ContactDao.insert(contact).then((id) => Navigator.pop(context));
                     },
                   ),
                 ),
