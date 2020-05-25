@@ -1,25 +1,43 @@
-import 'package:bytebank/models/contact.dart';
+import 'package:bytebank/http/app_web_client.dart';
 import 'package:bytebank/models/transaction.dart';
+import 'package:bytebank/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 
 class TransactionsListScaffold extends StatelessWidget {
-  final List<Transaction> transactions = List();
 
   @override
   Widget build(BuildContext context) {
-    transactions.add(Transaction(130, Contact(0, "Marcelo", 1000)));
-    transactions.add(Transaction(130, Contact(0, "Ana", 1000)));
-    transactions.add(Transaction(130, Contact(0, "João", 1000)));
     return Scaffold(
       appBar: AppBar(
         title: Text("Transactions"),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return _ListItemTransaction(transactions[index]);
-        },
-        itemCount: transactions.length,
-      ),
+      body:
+        FutureBuilder<List<Transaction>>(
+          future: AppWebClient.all(),
+          builder: (context, snapshot) {
+            switch(snapshot.connectionState){
+
+              case ConnectionState.none:
+                break;
+              case ConnectionState.waiting:
+                return LoadingWidget.getCircularLoading();
+                break;
+              case ConnectionState.active:
+                break;
+              case ConnectionState.done:
+                final List<Transaction> transactions = snapshot.data;
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    return _ListItemTransaction(transactions[index]);
+                  },
+                  itemCount: transactions.length,
+                );
+                break;
+            }
+            return Text("Nothing to show");
+          },
+        )
+
     );
   }
 }

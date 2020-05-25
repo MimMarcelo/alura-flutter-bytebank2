@@ -1,6 +1,7 @@
 import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/screens/contact_form_scaffold.dart';
+import 'package:bytebank/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 
 class ContactsListScaffold extends StatefulWidget {
@@ -23,15 +24,7 @@ class _ContactsListScaffoldState extends State<ContactsListScaffold> {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    Text("Loading data")
-                  ],
-                ),
-              );
+              return LoadingWidget.getCircularLoading();
               break;
             case ConnectionState.active:
               break;
