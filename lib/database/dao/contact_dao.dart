@@ -13,7 +13,7 @@ class ContactDao {
   static const String _TABLE_NAME  = 'contacts';
   static const String _ID  = 'id';
   static const String _NAME  = 'name';
-  static const String _ACCOUNT  = 'account';
+  static const String _ACCOUNT  = 'accountNumber';
 
   static Future<List<Contact>> all() async {
     final Database db = await getDatabase();
@@ -24,30 +24,15 @@ class ContactDao {
 
   static Future<int> insert(Contact contact) async {
     final Database db = await getDatabase();
-    return db.insert(_TABLE_NAME, _toMap(contact));
-  }
-
-  static Map<String, dynamic> _toMap(Contact contact) {
-    final Map<String, dynamic> contactMapping = Map();
-
-    contactMapping[_NAME] = contact.name;
-    contactMapping[_ACCOUNT] = contact.account;
-    return contactMapping;
+    return db.insert(_TABLE_NAME, contact.toMap());
   }
 
   static List<Contact> _toList(List<Map<String, dynamic>> result) {
     final List<Contact> contacts = List();
     for (Map<String, dynamic> row in result) {
-      contacts.add(_toObject(row));
+      contacts.add(Contact.from(row));
     }
     return contacts;
   }
 
-  static Contact _toObject(Map<String, dynamic> row) {
-    return Contact(
-      row[_ID],
-      row[_NAME],
-      row[_ACCOUNT],
-    );
-  }
 }

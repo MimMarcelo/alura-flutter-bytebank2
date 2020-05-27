@@ -1,4 +1,4 @@
-import 'package:bytebank/http/app_web_client.dart';
+import 'package:bytebank/http/web_client/transaction_web_client.dart';
 import 'package:bytebank/models/transaction.dart';
 import 'package:bytebank/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class TransactionsListScaffold extends StatelessWidget {
       ),
       body:
         FutureBuilder<List<Transaction>>(
-          future: AppWebClient.all(),
+          future: TransactionWebClient.all(),
           builder: (context, snapshot) {
             switch(snapshot.connectionState){
 
