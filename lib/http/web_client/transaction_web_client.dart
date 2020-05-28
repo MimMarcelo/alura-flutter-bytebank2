@@ -9,7 +9,8 @@ class TransactionWebClient{
   static const String TRANSACTIONS_URL = "${AppWebClient.SERVER_ADDRESS}transactions/";
   static const Map<int, String> _httpErrors = {
     400: "There was an error submitting transaction",
-    401: "Authentication failed"
+    401: "Authentication failed",
+    409: "Transaction always exists",
   };
 
   static Future<List<Transaction>> all() async {
@@ -25,6 +26,9 @@ class TransactionWebClient{
 
   static Future<Transaction> insert(Transaction transaction, String password) async {
     final String transactionJson = jsonEncode(transaction.toMap());
+
+//    await Future.delayed(Duration(seconds: 10));
+
     final Response response = await post(
       TRANSACTIONS_URL,
       headers: {
@@ -35,9 +39,16 @@ class TransactionWebClient{
     );
 
     if(response.statusCode >= 300){
-      throw Exception(_httpErrors[response.statusCode]);
+      throw Exception(_getError(response.statusCode));
     }
 
     return Transaction.from(jsonDecode(response.body));
+  }
+
+  static String _getError(int statusCode) {
+    if(_httpErrors.containsKey(statusCode)) {
+      return _httpErrors[statusCode];
+    }
+    return "Unknown error";
   }
 }

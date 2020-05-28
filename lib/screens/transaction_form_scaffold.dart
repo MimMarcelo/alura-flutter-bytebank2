@@ -5,6 +5,7 @@ import 'package:bytebank/widgets/auth_dialog.dart';
 import 'package:bytebank/widgets/response_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class TransactionFormScaffold extends StatefulWidget {
   final Contact contact;
@@ -18,6 +19,7 @@ class TransactionFormScaffold extends StatefulWidget {
 
 class _TransactionFormScaffoldState extends State<TransactionFormScaffold> {
   final TextEditingController valueController = TextEditingController();
+  final String transactionId = Uuid().v4();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class _TransactionFormScaffoldState extends State<TransactionFormScaffold> {
                   onPressed: () {
                     double value = double.tryParse(valueController.text);
                     Transaction transactionToSave =
-                        Transaction(value, widget.contact);
+                        Transaction(transactionId, value, widget.contact);
                     showDialog(
                         context: context,
                         builder: (contextDialog) {
