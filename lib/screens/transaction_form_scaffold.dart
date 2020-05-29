@@ -2,6 +2,7 @@ import 'package:bytebank/http/web_client/transaction_web_client.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/models/transaction.dart';
 import 'package:bytebank/widgets/auth_dialog.dart';
+import 'package:bytebank/widgets/loading_widget.dart';
 import 'package:bytebank/widgets/response_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class TransactionFormScaffold extends StatefulWidget {
 class _TransactionFormScaffoldState extends State<TransactionFormScaffold> {
   final TextEditingController valueController = TextEditingController();
   final String transactionId = Uuid().v4();
+  bool _sending = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,11 @@ class _TransactionFormScaffoldState extends State<TransactionFormScaffold> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
+              Visibility(
+                child: LoadingWidget.getCircularLoading(
+                    message: "Recording transaction..."),
+                visible: _sending,
+              ),
               Text(
                 widget.contact.name,
                 style: TextStyle(
@@ -68,6 +75,9 @@ class _TransactionFormScaffoldState extends State<TransactionFormScaffold> {
                           // Mudar o nome do contexto, para que na função interna, seja possível atribuir o context do Scaffold
                           return AuthDialog(
                             onConfirm: (String password) async {
+                              setState(() {
+                                _sending = true;
+                              });
                               Transaction transaction =
                                   await TransactionWebClient.insert(
                                           transactionToSave, password)
@@ -77,7 +87,11 @@ class _TransactionFormScaffoldState extends State<TransactionFormScaffold> {
                                     builder: (contextDialog) {
                                       return FailureDialog(error.message);
                                     });
-                              }, test: (error) => error is Exception);
+                              }, test: (error) => error is Exception).whenComplete(() {
+                                setState(() {
+                                  _sending = false;
+                                });
+                                  });
 
                               if (transaction != null) {
                                 showDialog(

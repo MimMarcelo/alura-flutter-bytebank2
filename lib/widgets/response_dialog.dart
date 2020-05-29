@@ -86,7 +86,7 @@ class FailureDialog extends StatelessWidget {
   final IconData icon;
 
   const FailureDialog(this.message,
-      {this.title = "Success", this.icon = Icons.warning});
+      {this.title = "Failure", this.icon = Icons.warning});
 
   @override
   Widget build(BuildContext context) {
