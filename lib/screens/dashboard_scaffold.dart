@@ -22,12 +22,12 @@ class DashboardScaffold extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  _FeatureItem(
+                  FeatureItem(
                     Icons.people,
                     "Contacts",
                     onClick: () => _showContactsScaffold(context),
                   ),
-                  _FeatureItem(
+                  FeatureItem(
                     Icons.monetization_on,
                     "Transactions",
                     onClick: () => _showTrasactionsScaffold(context),
@@ -58,12 +58,12 @@ class DashboardScaffold extends StatelessWidget {
   }
 }
 
-class _FeatureItem extends StatelessWidget {
+class FeatureItem extends StatelessWidget {
   final IconData _iconData;
   final String _description;
   final Function onClick;
 
-  const _FeatureItem(this._iconData, this._description,
+  const FeatureItem(this._iconData, this._description,
       {@required this.onClick})
       : assert(_iconData != null),
         assert(onClick != null);
