@@ -12,7 +12,7 @@ class ByteBankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ByteBank',
       theme: ThemeData(
           primaryColor: Colors.green[900],
           accentColor: Colors.blueAccent[700],

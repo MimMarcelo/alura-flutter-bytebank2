@@ -9,33 +9,40 @@ class DashboardScaffold extends StatelessWidget {
       appBar: AppBar(
         title: Text("Dashboard"),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset('images/bytebank_logo.png'),
+      body: LayoutBuilder( // Permite que o SingleChildScrollView ocupe toda altura da tela
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight, // Define a altura da tela
             ),
-            Container(
-              height: 120,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  FeatureItem(
-                    Icons.people,
-                    "Contacts",
-                    onClick: () => _showContactsScaffold(context),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset('images/bytebank_logo.png'),
+                ),
+                Container(
+                  height: 120,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      FeatureItem(
+                        Icons.people,
+                        "Contacts",
+                        onClick: () => _showContactsScaffold(context),
+                      ),
+                      FeatureItem(
+                        Icons.monetization_on,
+                        "Transactions",
+                        onClick: () => _showTrasactionsScaffold(context),
+                      ),
+                    ],
                   ),
-                  FeatureItem(
-                    Icons.monetization_on,
-                    "Transactions",
-                    onClick: () => _showTrasactionsScaffold(context),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -59,13 +66,13 @@ class DashboardScaffold extends StatelessWidget {
 }
 
 class FeatureItem extends StatelessWidget {
-  final IconData _iconData;
-  final String _description;
+  final IconData iconData;
+  final String description;
   final Function onClick;
 
-  const FeatureItem(this._iconData, this._description,
+  const FeatureItem(this.iconData, this.description,
       {@required this.onClick})
-      : assert(_iconData != null),
+      : assert(iconData != null),
         assert(onClick != null);
 
   @override
@@ -84,12 +91,12 @@ class FeatureItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Icon(
-                  _iconData,
+                  iconData,
                   color: Colors.white,
                   size: 32,
                 ),
                 Text(
-                  _description,
+                  description,
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ],
