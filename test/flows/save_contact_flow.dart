@@ -1,24 +1,18 @@
+import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/screens/contact_form_scaffold.dart';
 import 'package:bytebank/screens/contacts_list_scaffold.dart';
-import 'package:bytebank/screens/dashboard_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 
-import 'matches.dart';
+import '../helpers/matches.dart';
+import '../mocks/mocks.dart';
+import 'show_contacts_list.dart';
 
 void main() {
   testWidgets("Should save contact", (WidgetTester tester) async {
-    await startApp(tester);
-    final dashboardScaffold = find.byType(DashboardScaffold);
-    expect(dashboardScaffold, findsOneWidget);
-
-    final contactsFeature = featureItemMatcher("Contacts", Icons.people);
-    expect(contactsFeature, findsOneWidget);
-    await tester.tap(contactsFeature);
-    await tester.pumpAndSettle();
-
-    final contactsScaffold = find.byType(ContactsListScaffold);
-    expect(contactsScaffold, findsOneWidget);
+    final mockContactDao = MockContactDao();
+    await contactsListTest(tester, mockContactDao);
 
     final fab = find.byType(FloatingActionButton);
     expect(fab, findsOneWidget);
@@ -41,7 +35,11 @@ void main() {
     await tester.tap(createButtom);
     await tester.pumpAndSettle();
 
-    expect(contactsScaffold, findsOneWidget);
+    verify(mockContactDao.insert(Contact(0, "Marcelo Júnior", 1000)));
+
+    expect(find.byType(ContactsListScaffold), findsOneWidget);
+
+    verify(mockContactDao.all());
   });
 }
 

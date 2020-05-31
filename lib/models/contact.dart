@@ -23,4 +23,19 @@ class Contact{
     return Contact(0, contactMap['name'], contactMap['accountNumber']);
   }
 
+  /**
+   * Permite que a comparação realizada pelo Mockito possa
+   * identificar que o objeto foi criado, comparando apenas
+   * o nome e o número da conta
+   */
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Contact &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          account == other.account;
+
+  @override
+  int get hashCode => name.hashCode ^ account.hashCode;
 }

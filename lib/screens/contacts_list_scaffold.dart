@@ -39,7 +39,7 @@ class _ContactsListScaffoldState extends State<ContactsListScaffold> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final Contact contact = contacts[index];
-                  return _ListItemContact(
+                  return ListItemContact(
                     contact,
                     onClick: () {
                       Navigator.of(context).push(
@@ -76,11 +76,11 @@ class _ContactsListScaffoldState extends State<ContactsListScaffold> {
   }
 }
 
-class _ListItemContact extends StatelessWidget {
+class ListItemContact extends StatelessWidget {
   final Contact contact;
   final Function onClick;
 
-  _ListItemContact(
+  ListItemContact(
     this.contact, {
     @required this.onClick,
   });
