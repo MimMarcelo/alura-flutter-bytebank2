@@ -6,6 +6,11 @@ import 'package:bytebank/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 
 class ContactsListScaffold extends StatefulWidget {
+
+  final ContactDao contactDao;
+
+  const ContactsListScaffold({@required this.contactDao});
+
   @override
   _ContactsListScaffoldState createState() => _ContactsListScaffoldState();
 }
@@ -19,7 +24,7 @@ class _ContactsListScaffoldState extends State<ContactsListScaffold> {
       ),
       body: FutureBuilder<List<Contact>>(
         initialData: List(),
-        future: ContactDao.all(),
+        future: widget.contactDao.all(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -61,7 +66,7 @@ class _ContactsListScaffoldState extends State<ContactsListScaffold> {
           Navigator.of(context)
               .push(
                 MaterialPageRoute(
-                  builder: (context) => ContactFormScaffold(),
+                  builder: (context) => ContactFormScaffold(contactDao: widget.contactDao,),
                 ),
               )
               .then((value) => setState(() => {}));

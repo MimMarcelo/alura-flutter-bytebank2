@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 class ContactFormScaffold extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _accountController = TextEditingController();
+  final ContactDao contactDao;
+
+  ContactFormScaffold({@required this.contactDao});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class ContactFormScaffold extends StatelessWidget {
                       final String name = _nameController.text;
                       final int account = int.parse(_accountController.text);
                       final Contact contact = Contact(0, name, account);
-                      ContactDao.insert(contact).then((id) => Navigator.pop(context));
+                      _save(contact, context);
                     },
                   ),
                 ),
@@ -64,5 +67,10 @@ class ContactFormScaffold extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _save(Contact contact, BuildContext context) async{
+    await contactDao.insert(contact);
+    Navigator.pop(context);
   }
 }

@@ -15,19 +15,19 @@ class ContactDao {
   static const String _NAME  = 'name';
   static const String _ACCOUNT  = 'accountNumber';
 
-  static Future<List<Contact>> all() async {
+  Future<List<Contact>> all() async {
     final Database db = await getDatabase();
     final List<Map<String, dynamic>> result = await db.query(_TABLE_NAME);
 
     return _toList(result);
   }
 
-  static Future<int> insert(Contact contact) async {
+  Future<int> insert(Contact contact) async {
     final Database db = await getDatabase();
     return db.insert(_TABLE_NAME, contact.toMap());
   }
 
-  static List<Contact> _toList(List<Map<String, dynamic>> result) {
+  List<Contact> _toList(List<Map<String, dynamic>> result) {
     final List<Contact> contacts = List();
     for (Map<String, dynamic> row in result) {
       contacts.add(Contact.from(row));
