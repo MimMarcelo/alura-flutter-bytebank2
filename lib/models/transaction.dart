@@ -27,4 +27,15 @@ class Transaction {
         transaction['value'],
         Contact.from(transaction['contact']));
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Transaction &&
+          runtimeType == other.runtimeType &&
+          value == other.value &&
+          contact == other.contact;
+
+  @override
+  int get hashCode => value.hashCode ^ contact.hashCode;
 }

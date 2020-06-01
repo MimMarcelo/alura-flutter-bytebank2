@@ -1,4 +1,3 @@
-
 import 'package:bytebank/screens/contacts_list_scaffold.dart';
 import 'package:bytebank/screens/dashboard_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +7,19 @@ import 'package:mockito/mockito.dart';
 import '../helpers/matches.dart';
 import '../mocks/mocks.dart';
 
-void main(){
-  testWidgets("Should show contacts list scaffold", (WidgetTester tester) async {
-    await contactsListTest(tester, MockContactDao());
+void main() {
+  testWidgets("Should show contacts list scaffold",
+      (WidgetTester tester) async {
+    await contactsListTest(
+        tester, MockContactDao(), MockTransactionWebClient());
   });
 }
 
-Future<void> contactsListTest(WidgetTester tester, MockContactDao mockContactDao) async {
-  await startApp(tester, mockContactDao);
+Future<void> contactsListTest(
+    WidgetTester tester,
+    MockContactDao mockContactDao,
+    MockTransactionWebClient mockTransactionWebClient) async {
+  await startApp(tester, mockContactDao, mockTransactionWebClient);
   final dashboardScaffold = find.byType(DashboardScaffold);
   expect(dashboardScaffold, findsOneWidget);
 

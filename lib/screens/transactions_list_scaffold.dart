@@ -1,5 +1,6 @@
 import 'package:bytebank/http/web_client/transaction_web_client.dart';
 import 'package:bytebank/models/transaction.dart';
+import 'package:bytebank/widgets/app_dependencies.dart';
 import 'package:bytebank/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -7,13 +8,14 @@ class TransactionsListScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Transactions"),
       ),
       body:
         FutureBuilder<List<Transaction>>(
-          future: TransactionWebClient.all(),
+          future: dependencies.transactionWebClient.all(),
           builder: (context, snapshot) {
             switch(snapshot.connectionState){
 

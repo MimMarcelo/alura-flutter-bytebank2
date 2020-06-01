@@ -2,14 +2,11 @@ import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/screens/contact_form_scaffold.dart';
 import 'package:bytebank/screens/transaction_form_scaffold.dart';
+import 'package:bytebank/widgets/app_dependencies.dart';
 import 'package:bytebank/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 
 class ContactsListScaffold extends StatefulWidget {
-
-  final ContactDao contactDao;
-
-  const ContactsListScaffold({@required this.contactDao});
 
   @override
   _ContactsListScaffoldState createState() => _ContactsListScaffoldState();
@@ -18,13 +15,14 @@ class ContactsListScaffold extends StatefulWidget {
 class _ContactsListScaffoldState extends State<ContactsListScaffold> {
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Contacts"),
       ),
       body: FutureBuilder<List<Contact>>(
         initialData: List(),
-        future: widget.contactDao.all(),
+        future: dependencies.contactDao.all(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -66,7 +64,7 @@ class _ContactsListScaffoldState extends State<ContactsListScaffold> {
           Navigator.of(context)
               .push(
                 MaterialPageRoute(
-                  builder: (context) => ContactFormScaffold(contactDao: widget.contactDao,),
+                  builder: (context) => ContactFormScaffold(),
                 ),
               )
               .then((value) => setState(() => {}));

@@ -1,6 +1,6 @@
-import 'package:bytebank/http/web_client/transaction_web_client.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/models/transaction.dart';
+import 'package:bytebank/widgets/app_dependencies.dart';
 import 'package:bytebank/widgets/auth_dialog.dart';
 import 'package:bytebank/widgets/loading_widget.dart';
 import 'package:bytebank/widgets/response_dialog.dart';
@@ -25,6 +25,7 @@ class _TransactionFormScaffoldState extends State<TransactionFormScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("New Transaction"),
@@ -79,7 +80,7 @@ class _TransactionFormScaffoldState extends State<TransactionFormScaffold> {
                                 _sending = true;
                               });
                               Transaction transaction =
-                                  await TransactionWebClient.insert(
+                                  await dependencies.transactionWebClient.insert(
                                           transactionToSave, password)
                                       .catchError((error) {
                                 showDialog(

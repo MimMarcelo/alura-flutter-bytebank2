@@ -1,16 +1,15 @@
 import 'package:bytebank/database/dao/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
+import 'package:bytebank/widgets/app_dependencies.dart';
 import 'package:flutter/material.dart';
 
 class ContactFormScaffold extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _accountController = TextEditingController();
-  final ContactDao contactDao;
-
-  ContactFormScaffold({@required this.contactDao});
 
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("New Contact"),
@@ -57,7 +56,7 @@ class ContactFormScaffold extends StatelessWidget {
                       final String name = _nameController.text;
                       final int account = int.parse(_accountController.text);
                       final Contact contact = Contact(0, name, account);
-                      _save(contact, context);
+                      _save(contact, dependencies.contactDao, context);
                     },
                   ),
                 ),
@@ -69,7 +68,7 @@ class ContactFormScaffold extends StatelessWidget {
     );
   }
 
-  void _save(Contact contact, BuildContext context) async{
+  void _save(Contact contact, ContactDao contactDao, BuildContext context) async{
     await contactDao.insert(contact);
     Navigator.pop(context);
   }

@@ -12,7 +12,7 @@ import 'show_contacts_list.dart';
 void main() {
   testWidgets("Should save contact", (WidgetTester tester) async {
     final mockContactDao = MockContactDao();
-    await contactsListTest(tester, mockContactDao);
+    await contactsListTest(tester, mockContactDao, MockTransactionWebClient());
 
     final fab = find.byType(FloatingActionButton);
     expect(fab, findsOneWidget);

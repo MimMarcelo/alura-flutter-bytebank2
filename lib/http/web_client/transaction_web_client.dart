@@ -13,7 +13,7 @@ class TransactionWebClient{
     409: "Transaction always exists",
   };
 
-  static Future<List<Transaction>> all() async {
+  Future<List<Transaction>> all() async {
     final Response response =
     await get(TRANSACTIONS_URL).timeout(Duration(seconds: 5));
     final List<dynamic> jsonMap = jsonDecode(response.body);
@@ -24,7 +24,7 @@ class TransactionWebClient{
     return transactions;
   }
 
-  static Future<Transaction> insert(Transaction transaction, String password) async {
+  Future<Transaction> insert(Transaction transaction, String password) async {
     final String transactionJson = jsonEncode(transaction.toMap());
 
 //    await Future.delayed(Duration(seconds: 10));
@@ -45,7 +45,7 @@ class TransactionWebClient{
     return Transaction.from(jsonDecode(response.body));
   }
 
-  static String _getError(int statusCode) {
+  String _getError(int statusCode) {
     if(_httpErrors.containsKey(statusCode)) {
       return _httpErrors[statusCode];
     }
